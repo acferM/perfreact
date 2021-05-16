@@ -56,13 +56,13 @@ export function MyComponent({ products }) {
 
 Usado para não recriar a função sempre que o componente pai renderizar.
 
-## Casos de uso do useCallback
+### Casos de uso do useCallback
 
 1. Funções que não recebem parâmetro e não dependem de informação externa
 2. Componentes que recarregam muito frequentemente
 3. Funções puras
 
-## Como utilizar o useCallback
+### Como utilizar o useCallback
 
 ```tsx
 import { useCallback } from 'react'
