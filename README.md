@@ -77,3 +77,69 @@ export function MyComponent() {
   )
 }
 ```
+
+## Dynamic import (Code-Splitting)
+
+O Dynamic import é usado para importar funções ou components apenas quando eles forem renderizados na tela, melhorando o bundle da aplicação.
+
+### Quando usar o Dynamic Import
+
+1. Ao importar uma função que não tem funcionalidade fora de um contexto muito específico, ex: uma função que faz um cálculo matemático ao clicar em um botão.
+
+2. Ao importar components que não serão renderizados em tela ao carregar o componente pai, ex: um modal de compra
+
+### Como utilizar o Dynamic Import
+
+Aplicações com NextJS
+
+```tsx
+import dynamic from 'next/dynamic'
+import { AddProductToCartModalProps } from '../components/AppProductToCartModal'
+
+const AddProductToCartModal = dynamic<AddProductToCartModalProps>(() => {
+  return import('../components/AddProductToCartModal').then(mod => mod.AddProductToCartModal)
+})
+
+export function MyComponent() {
+  const [isModalOpen, setIsModalOpen] = useSate(false)
+
+  return (
+    <>
+      <button onClick={setIsModalOpen(true)}>open modal</button>
+
+      { isModalOpen && <AddProductToCartModal/>}
+    </>
+  )
+}
+```
+
+Aplicações com CRA (Create React App)
+
+```tsx
+import { lazy } from 'react'
+import { AddProductToCartModalProps } from '../components/AppProductToCartModal'
+
+const AddProductToCartModal = lazy<AddProductToCartModalProps>(() => {
+  return import('../components/AddProductToCartModal').then(mod => mod.AddProductToCartModal)
+})
+
+export function MyComponent() {
+  const [isModalOpen, setIsModalOpen] = useSate(false)
+
+  return (
+    <>
+      <button onClick={setIsModalOpen(true)}>open modal</button>
+
+      { isModalOpen && <AddProductToCartModal/>}
+    </>
+  )
+}
+```
+
+**Sim, a única diferença é o nome da função 😁**
+
+## Virtualização
+
+A virtualização é um modo de renderizar apenas o que esta aparecendo na tela, para que não fique muita informação na memória e no navegador.
+
+Isto pode ser feito manualmente mas é recomendado o uso de uma biblioteca como o <a href="http://bvaughn.github.io/react-virtualized/#/components/List">react-virtualized</a>
